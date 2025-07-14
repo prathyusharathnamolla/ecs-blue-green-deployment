@@ -5,7 +5,7 @@
   "containerDefinitions": [
     {
       "name": "bluegreen",
-      "image": "<IMAGE_PLACEHOLDER>",
+      "image": "<bluegreen>",
       "portMappings": [
         {
           "containerPort": 8080
