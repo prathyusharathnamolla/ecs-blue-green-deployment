@@ -1,9 +1,10 @@
 version: 0.0
 Resources:
- - TargetService:
-     Type: AWS::ECS::Service
-     Properties:
-       TaskDefinition: "arn:aws:ecs:us-east-1:711610755347:task-definition/ecs-cluster-v1:1"
-       LoadBalancerInfo:
-         ContainerName: "ecs-container-version1"
-         ContainerPort: 8080
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "REPLACED_BY_CODEPIPELINE"
+        LoadBalancerInfo:
+          ContainerName: "bluegreen-task"
+          ContainerPort: 8080
+
