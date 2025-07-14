@@ -37,7 +37,7 @@ phases:
       - docker push $IMAGE_URI
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
       - echo Writing imagedefinitions.json...
-      - printf '[{"name":"bluegreen-task","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest > imagedefinitions.json
+      - printf '[{"name":"bluegreen","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest > imagedefinitions.json
       - cat imagedefinitions.json
       - echo Build completed on `date`
 
