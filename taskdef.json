@@ -1,5 +1,5 @@
 {
-  "family": "bluegreen-task",
+  "family": "bluegreen",
   "executionRoleArn": "arn:aws:iam::580801916917:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
   "containerDefinitions": [
