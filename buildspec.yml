@@ -1,35 +1,49 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_REGION: us-east-1
+    AWS_ACCOUNT_ID: 580801916917
+    IMAGE_NAME: bluegreen
+
 phases:
+  install:
+    commands:
+      - echo Installing jq...
+      - yum install -y jq
+
   pre_build:
     commands:
       - echo Logging in to DockerHub to avoid rate limits...
       - DOCKERHUB_USERNAME=$(aws secretsmanager get-secret-value --secret-id dockerhub-credentials --query SecretString --output text | jq -r .username)
       - DOCKERHUB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id dockerhub-credentials --query SecretString --output text | jq -r .password)
+      - echo "DockerHub username: $DOCKERHUB_USERNAME"
+      - echo "DockerHub password length: ${#DOCKERHUB_PASSWORD}"
       - echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 580801916917.dkr.ecr.us-east-1.amazonaws.com
-      - IMAGE_URI=580801916917.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - IMAGE_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
 
   build:
     commands:
       - echo Building Docker image...
       - docker build -t $IMAGE_URI .
-
+      
   post_build:
     commands:
       - echo Pushing Docker image...
       - docker push $IMAGE_URI
-      - echo Also tagging and pushing latest...
-      - docker tag $IMAGE_URI 580801916917.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:latest
-      - docker push 580801916917.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_NAME:latest
+      - echo Tagging image as latest...
+      - docker tag $IMAGE_URI $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
       - echo Writing imagedefinitions.json...
       - printf '[{"name":"bluegreen-task","imageUri":"%s"}]' $IMAGE_URI > imagedefinitions.json
+      - cat imagedefinitions.json
+      - echo Build completed on `date`
 
 artifacts:
   files:
-    - appspec.yaml
+    - appspec.yml
     - taskdef.json
     - imagedefinitions.json
-
 
