@@ -5,6 +5,6 @@ Resources:
       Properties:
         TaskDefinition: "REPLACED_BY_CODEPIPELINE"
         LoadBalancerInfo:
-          ContainerName: "bluegreen-task"
+          ContainerName: "bluegreen"
           ContainerPort: 8080
 
