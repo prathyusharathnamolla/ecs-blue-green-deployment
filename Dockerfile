@@ -1,6 +1,6 @@
 
 #FROM public.ecr.aws/bitnami/node:latest
-FROM node:18
+FROM public.ecr.aws/docker/library/node:18
 
 # Create app directory
 WORKDIR /usr/src/app
