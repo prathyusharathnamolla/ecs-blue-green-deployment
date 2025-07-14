@@ -1,10 +1,11 @@
 {
   "family": "bluegreen-task",
   "executionRoleArn": "arn:aws:iam::580801916917:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
   "containerDefinitions": [
     {
       "name": "bluegreen-task",
-      "image": "<IMAGE_URI>",
+      "image": "580801916917.dkr.ecr.us-east-1.amazonaws.com/bluegreen:latest",
       "portMappings": [
         {
           "containerPort": 8080
@@ -14,7 +15,6 @@
     }
   ],
   "requiresCompatibilities": ["FARGATE"],
-  "networkMode": "awsvpc",
   "cpu": "256",
   "memory": "512"
 }
