@@ -1,11 +1,11 @@
 {
-  "family": "bluegreen",
+  "family": "bluegreen-task",
   "executionRoleArn": "arn:aws:iam::580801916917:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
   "containerDefinitions": [
     {
       "name": "bluegreen",
-      "image": "580801916917.dkr.ecr.us-east-1.amazonaws.com/bluegreen:latest",
+      "image": "<IMAGE_PLACEHOLDER>",
       "portMappings": [
         {
           "containerPort": 8080
