@@ -33,24 +33,22 @@ phases:
       - docker tag $IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
   post_build:
     commands:
-     post_build:
-  commands:
-    - echo Pushing Docker image to ECR...
-    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
-    - echo Writing imagedefinitions.json...
-    - printf '[{"name":"bluegreen-task","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest > imagedefinitions.json
-    - cat imagedefinitions.json
-    - echo Copying taskdef.json and appspec.yml to build directory...
-    - cp taskdef.json .
-    - cp appspec.yml .
-    - ls -la
-    - echo Build completed on `date`
-
+      - echo Pushing Docker image to ECR...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest
+      - echo Writing imagedefinitions.json...
+      - printf '[{"name":"bluegreen-task","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_NAME:latest > imagedefinitions.json
+      - cat imagedefinitions.json
+      - echo Copying taskdef.json and appspec.yml to build directory...
+      - cp taskdef.json .
+      - cp appspec.yml .
+      - ls -la
+      - echo Build completed on `date`
 
 artifacts:
   files:
     - imagedefinitions.json
     - taskdef.json
     - appspec.yml
+
 
 
